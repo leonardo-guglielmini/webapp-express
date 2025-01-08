@@ -35,7 +35,17 @@ function show(req, res) {
 
         const movie = result[0]
 
-        res.json(movie)
+        let sql = `SELECT * FROM reviews WHERE movie_id = ?`
+
+        conn.query(sql, [id], (err, result) => {
+            if (err)
+                return res.status(500).json({
+                    message: err.message
+                })
+            movie.reviews = result
+            res.json(movie)
+        })
+
     })
 }
 
