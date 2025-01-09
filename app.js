@@ -7,6 +7,8 @@ const port = process.env.PORT || 3000
 const notFound = require("./middlewares/notFound")
 const errorHandler = require("./middlewares/errorHandler")
 
+app.use(cors({ origin: process.env.CORS_ORIGIN }))
+
 app.get("/", (req, res) => {
     res.send("Server running")
 })
