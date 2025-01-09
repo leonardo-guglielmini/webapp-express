@@ -11,6 +11,9 @@ function index(req, res) {
                 message: err.message
             })
 
+        movies.forEach((movie) => {
+            movie.image = `http://localhost:3000/imgs/${movie.image}`
+        })
         res.json(movies)
     })
 }

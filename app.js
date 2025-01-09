@@ -9,6 +9,8 @@ const errorHandler = require("./middlewares/errorHandler")
 
 app.use(cors({ origin: process.env.CORS_ORIGIN }))
 
+app.use(express.static('public'))
+
 app.get("/", (req, res) => {
     res.send("Server running")
 })
