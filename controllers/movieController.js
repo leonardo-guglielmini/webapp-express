@@ -25,7 +25,7 @@ function show(req, res) {
 
     let sql = `SELECT * FROM movies WHERE id = ?`
 
-    conn.query(sql, [id], (err, result) => {
+    conn.query(sql, [id], (err, movies) => {
         if (err)
             return res.status(500).json({
                 message: err.message
@@ -36,16 +36,19 @@ function show(req, res) {
                 message: "Movie not found"
             })
 
-        const movie = result[0]
+        const movie = movies[0]
 
-        let sql = `SELECT * FROM reviews WHERE movie_id = ?`
+        movie.image = `http://localhost:3000/imgs/${movie.image}`
 
-        conn.query(sql, [id], (err, result) => {
+        const sql = `SELECT * FROM reviews WHERE movie_id = ?`
+
+        conn.query(sql, [id], (err, reviews) => {
             if (err)
                 return res.status(500).json({
                     message: err.message
                 })
-            movie.reviews = result
+
+            movie.reviews = reviews
             res.json(movie)
         })
 
