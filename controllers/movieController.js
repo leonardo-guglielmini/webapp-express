@@ -55,4 +55,34 @@ function show(req, res) {
     })
 }
 
-module.exports = { index, show }
+function storeReview(req, res) {
+    console.log("Store Review")
+
+    const id = req.params.id
+    const { name, vote, text } = req.body
+
+    //console.log(name, vote, text)
+
+    if (!name || !vote || !text) {
+        return res.status(400).json({
+            message: "Name, vote, and text are required fields"
+        })
+    }
+
+    const voteInt = parseInt(vote)
+
+    const sql = `INSERT INTO reviews (name, vote, text, movie_id) VALUES (?, ?, ?, ?)`
+
+    conn.query(sql, [name, voteInt, text, id], (err, result) => {
+        if (err)
+            return res.status(500).json({
+                message: err.message
+            })
+
+        res.json({
+            message: "Review inserted successfully"
+        })
+    })
+}
+
+module.exports = { index, show, storeReview }
